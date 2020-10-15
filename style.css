@@ -1,0 +1,16 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+}
+
+:root {
+    --bgcolour: grey;
+}
+
+.grid-container {
+    grid-template-columns: 6(1 fr);
+    grid-template-rows: 6(1fr);
+    gap: 1rem;
+}
