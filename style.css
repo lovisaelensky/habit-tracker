@@ -10,7 +10,21 @@
 }
 
 .grid-container {
+    display: grid;
     grid-template-columns: 6(1 fr);
     grid-template-rows: 6(1fr);
     gap: 1rem;
 }
+
+.container-input {
+   /*Make the input box and the +button next to each other*/
+   background-color: green;
+}
+
+@media screen and (max-width: 479px) {
+    /* start of phone styles */
+    main {
+        max-width: 479px;
+        background-color: pink;
+    }
+    }
