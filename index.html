@@ -6,33 +6,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clean up!</title>
     <link rel="stylesheet" href="style.css">
-    <script src="app.js" defer></script>
+    <script src="classes.js" defer></script>
 </head>
 
 <body>
-    <div class="grid-container">
+    <div class="grid-container" id="wrapper">
         <header>
-            <h1 class="title">Stop being so dirty!</h1>
+            <h1 class="title">Get clean!</h1>
             <h2 class="date">Datumet</h2>
         </header>
         <main>
-            <p>En text om sajten och hur den fungerar.</p>
+            <p class="hidden">En text om sajten och hur den fungerar.</p>
 
-            <div class="container-input">
-                <input type="text">
-                <button id="add-habit">+</button>
+            <div class="input-container">
+                <input type="text" id="input">
+                <button id="add-btn">+</button>
             </div>
 
-            <ul id="tasks">
-                <li></li>
+            <ul id="tasks"> 
             </ul>
 
         </main>
 
         <footer>
-            <button id="trash-btn">Trash</button>
+            <!-- <button id="trash-btn">Trash</button> -->
             <!-- <button id="calender-btn">Monthly overview</button> -->
-            <button id="start-btn">Get clean!</button>
+            <img id="trash-can" src="images/iconmonstr-trash-can-1-240.png" alt="trash can">
+            <button class="hidden" id="start-btn">Get clean!</button>
         </footer>
 
     </div>
