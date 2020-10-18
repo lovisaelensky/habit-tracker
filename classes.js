@@ -17,7 +17,9 @@ class ListOfTasks {
             this.list = JSON.parse(data);
             this.id = this.list.length;
             for(const item of this.list) {
-                this.publish(item.task, item.id, item.check);
+                if(item.active) {
+                    this.publish(item.task, item.id, item.check);
+                }
             }
         } else {
             this.list = [];
@@ -79,7 +81,7 @@ class ListOfTasks {
     changeUI = () => {
         let checkedTasks = 0;
         for(const item of this.list) {
-            if(item.check) {
+            if(item.check && item.active) {
                 checkedTasks++;
             }
         }
@@ -106,10 +108,13 @@ class ListOfTasks {
         });
         trashCan.addEventListener('drop', (event) => {
             const itemId = event.dataTransfer.getData('text/plain');
-            const item = document.getElementById(`${itemId}`);
-            console.log(item);
-            DOMlist.removeChild(item);
+            const DOMitem = document.getElementById(`${itemId}`);
+            DOMlist.removeChild(DOMitem);
+            this.list[itemId.slice(3)].active = false; 
+            console.log(this.list[itemId.slice(3)].active);
+            localStorage.setItem('taskList', JSON.stringify(this.list));
         });
+
     }
 
     deleteSwipe = () => {
