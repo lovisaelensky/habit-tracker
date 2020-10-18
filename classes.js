@@ -26,11 +26,12 @@ class ListOfTasks {
         this.create();
         this.check();
         this.changeUI();
+        this.deleteDragAndDrop();
     }
 
     publish = (task, id, check) => {
         let checked = check ? 'mark' : 'unmark';
-        const DOMitem = `<li class="item">
+        const DOMitem = `<li class="item" id="li-${id}" draggable="true">
                         <button class="check-btn ${checked}" id="${id}"></button>
                         <p class="cleaning-item">${task}</p>
                         </li>`;
@@ -59,8 +60,8 @@ class ListOfTasks {
     }
 
     check = () => {
-        const list = document.querySelector('ul');
-        list.addEventListener('click', (event) => {
+        const DOMlist = document.querySelector('ul');
+        DOMlist.addEventListener('click', (event) => {
             if(event.target.nodeName === 'BUTTON'){
                 let checkBtn = event.target;
                 checkBtn.classList.toggle('mark');
@@ -87,6 +88,36 @@ class ListOfTasks {
         } else {
             document.getElementById('wrapper').classList.remove('clean');
         }
+    }
+
+    deleteDragAndDrop = () => {
+        document.querySelector('ul').addEventListener('dragstart', (event) => {
+            event.dataTransfer.setData('text/plain', event.target.id);
+            event.dataTransfer.effectAllowed = 'move';
+            console.log(event.target.id);
+        });
+
+        const DOMlist = document.querySelector('ul');
+        const trashCan = document.getElementById('trash-can');
+        trashCan.addEventListener('dragover', (event) => {
+            if(event.dataTransfer.types[0] === 'text/plain'){
+                event.preventDefault();
+            }
+        });
+        trashCan.addEventListener('drop', (event) => {
+            const itemId = event.dataTransfer.getData('text/plain');
+            const item = document.getElementById(`${itemId}`);
+            console.log(item);
+            DOMlist.removeChild(item);
+        });
+    }
+
+    deleteSwipe = () => {
+
+    }
+
+    deleteBackspace = () => {
+
     }
 }
 
