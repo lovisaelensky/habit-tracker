@@ -41,16 +41,20 @@ class ListOfTasks {
 
     create = () => {
         const addBtn = document.getElementById('add-btn');
-        addBtn.addEventListener('click', () => {
-            let taskInput = document.getElementById('input');
+        let taskInput = document.getElementById('input');
+        const createItem = (event) => {
             if(taskInput.value === ""){ return; }
-            const newItem = new CleaningItem(taskInput.value, this.id);
-            this.list.push(newItem);
-            this.publish(newItem.task, newItem.id);
-            localStorage.setItem('taskList', JSON.stringify(this.list));
-            this.id++;
-            taskInput.value = "";
-        })
+            if(event.keyCode === 13 || event.currentTarget === addBtn) {
+                const newItem = new CleaningItem(taskInput.value, this.id);
+                this.list.push(newItem);
+                this.publish(newItem.task, newItem.id);
+                localStorage.setItem('taskList', JSON.stringify(this.list));
+                this.id++;
+                taskInput.value = "";
+            }
+        }
+        addBtn.addEventListener('click', createItem);
+        taskInput.addEventListener('keyup', createItem);
         
     }
 
