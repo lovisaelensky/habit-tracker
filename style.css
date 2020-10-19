@@ -35,12 +35,17 @@ footer {
     grid-row-start: 3;
 }
 
+li button {
+    cursor: url(images/duster.png), auto;
+}
+
 li {
     display: flex;
     list-style-type: none;
     margin: 1rem 0 0 0;
     border: 1px solid;
     padding: 0.5rem;
+    cursor: url(images/duster.png), auto;
 }
 
 p {
@@ -58,16 +63,16 @@ button {
 }
 
 input {
-    padding: 0.5rem 2rem;
+    padding: 0.5rem;
 }
 
 
 .mark {
-    background-color:black;
+    background-color:pink;
 }
 
 .unmark {
-    background-color: white;
+    background-color:white;
 }
 
 .hidden {
@@ -79,9 +84,16 @@ input {
 }
 
 #trash-can {
-    width: 5vw;
-    justify-self: center;
+    width: 3rem;
+    margin: 1rem 0 0 0;
 }
+
+#show-calendar-btn {
+    display: grid;
+    margin: 4rem 0 0 4rem;
+
+}
+
 
 
 @media screen and (max-width: 479px) {

@@ -29,11 +29,12 @@ class ListOfTasks {
         this.check();
         this.changeUI();
         this.deleteDragAndDrop();
+        this.deleteBackspace();
     }
 
     publish = (task, id, check) => {
         let checked = check ? 'mark' : 'unmark';
-        const DOMitem = `<li class="item" id="li-${id}" draggable="true">
+        const DOMitem = `<li class="item" id="li-${id}" draggable="true" tabindex="0">
                         <button class="check-btn ${checked}" id="${id}"></button>
                         <p class="cleaning-item">${task}</p>
                         </li>`;
@@ -113,19 +114,83 @@ class ListOfTasks {
             this.list[itemId.slice(3)].active = false; 
             console.log(this.list[itemId.slice(3)].active);
             localStorage.setItem('taskList', JSON.stringify(this.list));
+            this.changeUI();
         });
 
+    }
+
+    deleteBackspace = () => {
+        const DOMlist = document.querySelector('ul');
+        DOMlist.addEventListener('keyup', (event) => {
+            if(event.keyCode === 8) {
+                event.target.remove();
+                const itemId = event.target.id;
+                this.list[itemId.slice(3)].active = false;
+                localStorage.setItem('taskList', JSON.stringify(this.list));
+                this.changeUI();
+            }
+        })
     }
 
     deleteSwipe = () => {
 
     }
 
-    deleteBackspace = () => {
 
+}
+
+
+
+class Calendar {
+    constructor() {
+        this.showDate();
+        this.unCheck();
+    }
+
+    showDate = () => {
+        let DOMdate = document.getElementById('today');
+        DOMdate.textContent = this.getToday();
+    }
+
+    unCheck() {
+        const today = this.getToday();
+        const checkDay = this.daysElapsed('20-10-19', today);
+        if(checkDay > 0) {
+            const data = localStorage.getItem('taskList');
+            const list = JSON.parse(data);
+            for(const item of list) {
+                item.check = false;
+            }
+            localStorage.setItem('taskList', JSON.stringify(list));
+        }
+    }
+
+    getToday = (offset = 0) => {
+        const today = new Date();
+        const day = new Date(today);
+        day.setDate(today.getDate() + offset);
+        return day.toISOString().slice(2, 10);
+    }
+    
+    daysElapsed = (lastLogin, today) => {
+        let counter = 0;
+        while(lastLogin !== today) {
+            today = this.getToday(- counter - 1);
+            counter++;
+        }
+        return counter;
+    } 
+}
+
+
+class UserInfo {
+    constructor() {
+        let userId = localStorage.getItem('userId');
     }
 }
 
+
+const calendar = new Calendar();
 const newList = new ListOfTasks();
 
 
