@@ -142,9 +142,16 @@ class ListOfTasks {
 
 
 class Calendar {
+    lastLogin;
     constructor() {
+        let data = localStorage.getItem('lastLogin');
+        if(data){
+            this.lastLogin = JSON.parse(data);
+            this.unCheck(this.lastLogin);
+        } else {
+            this.lastLogin = localStorage.setItem('lastLogin', JSON.stringify(this.getToday()));
+        }
         this.showDate();
-        this.unCheck();
     }
 
     showDate = () => {
@@ -152,9 +159,9 @@ class Calendar {
         DOMdate.textContent = this.getToday();
     }
 
-    unCheck() {
+    unCheck = (lastLogin) => {
         const today = this.getToday();
-        const checkDay = this.daysElapsed('20-10-19', today);
+        const checkDay = this.daysElapsed(lastLogin, today);
         if(checkDay > 0) {
             const data = localStorage.getItem('taskList');
             const list = JSON.parse(data);
