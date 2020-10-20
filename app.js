@@ -1,3 +1,4 @@
+
 class CleaningItem {
     constructor(task, id) {
         this.task = task;
@@ -201,4 +202,4 @@ const newList = new ListOfTasks();
 
 
 
-        
+     
