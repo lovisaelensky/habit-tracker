@@ -70,7 +70,6 @@ class ListOfTasks {
                 checkBtn.classList.toggle('mark');
                 checkBtn.classList.toggle('unmark');
                 this.list[checkBtn.id].check = this.list[checkBtn.id].check ? false : true;
-                console.log(this.list[checkBtn.id].check);
                 localStorage.setItem('taskList', JSON.stringify(this.list));
                 this.changeUI();
             }
@@ -97,7 +96,6 @@ class ListOfTasks {
         document.querySelector('ul').addEventListener('dragstart', (event) => {
             event.dataTransfer.setData('text/plain', event.target.id);
             event.dataTransfer.effectAllowed = 'move';
-            console.log(event.target.id);
         });
 
         const DOMlist = document.querySelector('ul');
@@ -112,7 +110,6 @@ class ListOfTasks {
             const DOMitem = document.getElementById(`${itemId}`);
             DOMlist.removeChild(DOMitem);
             this.list[itemId.slice(3)].active = false; 
-            console.log(this.list[itemId.slice(3)].active);
             localStorage.setItem('taskList', JSON.stringify(this.list));
             this.changeUI();
         });
@@ -148,9 +145,11 @@ class Calendar {
         if(data){
             this.lastLogin = JSON.parse(data);
             this.unCheck(this.lastLogin);
+            this.lastLogin = localStorage.setItem('lastLogin', JSON.stringify(this.getToday()));
         } else {
             this.lastLogin = localStorage.setItem('lastLogin', JSON.stringify(this.getToday()));
         }
+        
         this.showDate();
     }
 
