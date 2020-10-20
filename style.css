@@ -3,6 +3,7 @@
     margin: 0;
     padding: 0;
     text-decoration: none;
+    font-family: Helvetica, sans-serif;
 }
 
 :root {
@@ -11,15 +12,89 @@
 
 .grid-container {
     display: grid;
-    grid-template-columns: 6(1 fr);
-    grid-template-rows: 6(1fr);
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 20vh 1fr 30vh;
     gap: 1rem;
+    background-color: lightgray;
 }
 
-.container-input {
-   /*Make the input box and the +button next to each other*/
-   background-color: green;
+header {
+    grid-column-start: 2;
+    grid-row-start: 1;
 }
+
+
+main {
+   grid-column-start: 2;
+   grid-row-start: 2;
+}
+
+footer {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 3;
+}
+
+li button {
+    cursor: url(images/duster.png), auto;
+}
+
+li {
+    display: flex;
+    list-style-type: none;
+    margin: 1rem 0 0 0;
+    border: 1px solid;
+    padding: 0.5rem;
+    cursor: url(images/duster.png), auto;
+}
+
+p {
+    margin: 0.5rem 0 1rem 0.5rem;
+}
+
+h1 {
+    margin: 1rem 0 1rem 0;
+    font-size: 4rem;
+}
+
+button {
+    margin: 0.5rem 0 0.5rem 0;
+    padding: 0.5rem;
+}
+
+input {
+    padding: 0.5rem;
+}
+
+
+.mark {
+    background-color:pink;
+}
+
+.unmark {
+    background-color:white;
+}
+
+.hidden {
+    display: none;
+}
+
+.clean {
+    background-color: snow;
+}
+
+#trash-can {
+    width: 3rem;
+    margin: 1rem 0 0 0;
+}
+
+#show-calendar-btn {
+    display: grid;
+    margin: 4rem 0 0 4rem;
+
+}
+
+
 
 @media screen and (max-width: 479px) {
     /* start of phone styles */
