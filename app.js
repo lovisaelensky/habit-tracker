@@ -136,10 +136,16 @@ class ListOfTasks {
 
 }
 
-
+class CompletedTask {
+    constructor(date, completed) {
+        this.date = date;
+        this.completed = completed;
+    }
+}
 
 class Calendar {
     lastLogin;
+    completedTasks;
     constructor() {
         let data = localStorage.getItem('lastLogin');
         if(data){
@@ -151,6 +157,7 @@ class Calendar {
         }
         
         this.showDate();
+        /* this.setCompletedTasks(); */
     }
 
     showDate = () => {
@@ -186,7 +193,61 @@ class Calendar {
         }
         return counter;
     } 
+
+    setCompletedTasks = () => {
+        const data = localStorage.getItem('completedTasks');
+        const today = this.getToday();
+        const daysSinceLogin = this.daysElapsed(this.lastLogin, today);
+        let testCounter = 0;
+        const taskList = localStorage.getItem('taskList');
+        const list = JSON.parse(taskList);
+        const DOMlist = document.querySelector('ul');
+        DOMlist.addEventListener('click', (event) => {
+            if(event.target.nodeName === 'BUTTON'){
+                let checkBtn = event.target;
+                if(list[checkBtn.id].check){ //might need for-of-loop
+                    testCounter++;
+                } else{
+                    testCounter--;
+                }
+            }
+
+        })
+
+        if(!data || daysSinceLogin === 1) {
+            const newCompletedTask = new CompletedTask(today, testCounter);
+            this.completedTasks.unshift(newCompletedTask);
+            localStorage.setItem('completedTasks', JSON.stringify(this.completedTasks));
+        } else {
+            this.completedTasks = JSON.parse(data);
+            if(daysSinceLogin === 0) {
+                this.completedTasks[0].completed = testCounter;
+            } else {
+                for(let i = daysSinceLogin; i > 0; i--) {
+                    let day = this.getToday(i);
+                    let listItem = new CompletedTask(day, []);
+                    this.completedTasks.unshift(listItem);
+                }
+                const newTask = new CompletedTask(today, testCounter);
+                this.completedTasks.unshift(newTask);
+                localStorage.setItem('completedTasks', this.completedTasks);
+
+            }
+
+        }
+
+
+        //if there is no data in localstorage or if daysSincelogin > 0- create a new completedtask, push it to array and set localstorage
+        // else check days elapsed
+        //      if days elapsed is O 
+        //          then the number of checks should be updated
+        //      else go through the days since lastlogin and create new tasks with completed: 0
+        //          and create one for today with checked tasks
+    }
+
 }
+
+
 
 
 class UserInfo {
