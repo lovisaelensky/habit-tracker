@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean up!</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="app.js" defer></script>
+</head>
+
+<body>
+    <div class="grid-container" id="wrapper">
+        <header>
+            <h1 class="title">Clean up!</h1>
+            <h2 class="date" id="today">Datumet</h2>
+        </header>
+        <main>
+            <p class="hidden">En text om sajten och hur den fungerar.</p>
+            
+            <div class="input-container">
+                <input type="text" id="input" placeholder="add cleaning task">
+                <button id="add-btn">+</button>
+            </div>
+
+            <ul id="tasks"> 
+            </ul>
+
+        </main>
+
+        <footer>
+            <!-- <button id="trash-btn">Trash</button> -->
+            <!-- <button id="calender-btn">Monthly overview</button> -->
+            <img id="trash-can" src="images/iconmonstr-trash-can-1-240.png" alt="trash can">
+            <button class="hidden" id="start-btn">Get clean!</button>
+            <button id="show-calendar-btn">How clean have you been?</button>
+        </footer>
+
+    </div>
+
+</body>
+
+</html>
