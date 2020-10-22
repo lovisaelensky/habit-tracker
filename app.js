@@ -198,26 +198,25 @@ class Calendar {
 
 
     countChecks = () => {
-        let counter = 0;
         const data = localStorage.getItem('completedTasks');
         this.completedTasks = JSON.parse(data);
+        let currentCounter = this.completedTasks[0].completed;
+        console.log(currentCounter);
         const DOMlist = document.querySelector('ul');
         DOMlist.addEventListener('click', (event) => {
             if(event.target.nodeName === 'BUTTON'){
                 let checkBtn = event.target;
                 if(checkBtn.classList.contains('unmark')){ 
-                    counter++;
-                    this.completedTasks[0].completed = counter;
+                    currentCounter++;
+                    this.completedTasks[0].completed = currentCounter;
                     localStorage.setItem('completedTasks', JSON.stringify(this.completedTasks));
                 } else if(checkBtn.classList.contains('mark')){
-                    counter--;
-                    this.completedTasks[0].completed = counter;
+                    currentCounter--;
+                    this.completedTasks[0].completed = currentCounter;
                     localStorage.setItem('completedTasks', JSON.stringify(this.completedTasks));
                 }
             }
-
         })
-
     }
 
     setCompletedTasks = (counter = 0) => {
@@ -236,9 +235,6 @@ class Calendar {
                 this.completedTasks.unshift(listItem);
             }
             localStorage.setItem('completedTasks', JSON.stringify(this.completedTasks));
-
-            
-
         }
 
 
@@ -249,7 +245,6 @@ class Calendar {
         //      else go through the days since lastlogin and create new tasks with completed: 0
         //          and create one for today with checked tasks
     }
-
 }
 
 
