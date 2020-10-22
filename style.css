@@ -4,10 +4,16 @@
     padding: 0;
     text-decoration: none;
     font-family: Helvetica, sans-serif;
+
 }
 
 :root {
     --bgcolour: grey;
+}
+
+body {
+    background-image: url("images/kunj-parekh-3s3JPEXRzUg-unsplash.jpg");
+    background-size: cover;
 }
 
 .grid-container {
@@ -15,25 +21,30 @@
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 20vh 1fr 30vh;
     gap: 1rem;
-    background-image: url(images/kunj-parekh-3s3JPEXRzUg-unsplash.jpg);
+
 }
 
 header {
-    grid-column-start: 2;
+    grid-column-start: 1;
     grid-row-start: 1;
+    margin-left: 5rem;
 }
 
 
 main {
-   grid-column-start: 2;
+   grid-column-start: 1;
    grid-row-start: 2;
+   margin-left: 5rem;
+
 }
 
 footer {
-    grid-column-start: 2;
+    grid-column-start: 1;
     grid-column-end: 3;
     grid-row-start: 3;
+    margin-left: 5rem;
 }
+
 
 li button {
     cursor: url(images/duster.png), auto;
@@ -46,6 +57,7 @@ li {
     border: 1px solid;
     padding: 0.5rem;
     cursor: url(images/duster.png), auto;
+    backdrop-filter: brightness(170%);
 }
 
 p {
@@ -68,7 +80,7 @@ input {
 
 
 .mark {
-    background-color:pink;
+    background-color:black;
 }
 
 .unmark {

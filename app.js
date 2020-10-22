@@ -201,7 +201,6 @@ class Calendar {
         const data = localStorage.getItem('completedTasks');
         this.completedTasks = JSON.parse(data);
         let currentCounter = this.completedTasks[0].completed;
-        console.log(currentCounter);
         const DOMlist = document.querySelector('ul');
         DOMlist.addEventListener('click', (event) => {
             if(event.target.nodeName === 'BUTTON'){
@@ -229,21 +228,13 @@ class Calendar {
             localStorage.setItem('completedTasks', JSON.stringify(this.completedTasks));
         } else if(daysSinceLogin > 1){
             this.completedTasks = JSON.parse(data);
-            for(let i = daysSinceLogin; i > 0; i--) {
-                let day = this.getToday(i);
+            for(let i = daysSinceLogin -1; i >= 0; i--) {
+                let day = this.getToday(-i);
                 let listItem = new CompletedTask(day, counter);
                 this.completedTasks.unshift(listItem);
             }
             localStorage.setItem('completedTasks', JSON.stringify(this.completedTasks));
         }
-
-
-        //if there is no data in localstorage or if daysSincelogin > 0- create a new completedtask, push it to array and set localstorage
-        // else check days elapsed
-        //      if days elapsed is O 
-        //          then the number of checks should be updated
-        //      else go through the days since lastlogin and create new tasks with completed: 0
-        //          and create one for today with checked tasks
     }
 }
 
