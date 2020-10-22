@@ -145,19 +145,20 @@ class CompletedTask {
 
 class Calendar {
     lastLogin;
-    completedTasks;
+    completedTasks = [];
     constructor() {
         let data = localStorage.getItem('lastLogin');
         if(data){
             this.lastLogin = JSON.parse(data);
             this.unCheck(this.lastLogin);
-            this.lastLogin = localStorage.setItem('lastLogin', JSON.stringify(this.getToday()));
+            localStorage.setItem('lastLogin', JSON.stringify(this.getToday()));
         } else {
-            this.lastLogin = localStorage.setItem('lastLogin', JSON.stringify(this.getToday()));
+            localStorage.setItem('lastLogin', JSON.stringify(this.getToday()));
         }
         
         this.showDate();
-        /* this.setCompletedTasks(); */
+        this.setCompletedTasks();  
+        this.countChecks();
     }
 
     showDate = () => {
@@ -194,45 +195,48 @@ class Calendar {
         return counter;
     } 
 
-    setCompletedTasks = () => {
+
+    countChecks = () => {
+        let counter = 0;
         const data = localStorage.getItem('completedTasks');
-        const today = this.getToday();
-        const daysSinceLogin = this.daysElapsed(this.lastLogin, today);
-        let testCounter = 0;
-        const taskList = localStorage.getItem('taskList');
-        const list = JSON.parse(taskList);
+        this.completedTasks = JSON.parse(data);
         const DOMlist = document.querySelector('ul');
         DOMlist.addEventListener('click', (event) => {
             if(event.target.nodeName === 'BUTTON'){
                 let checkBtn = event.target;
-                if(list[checkBtn.id].check){ //might need for-of-loop
-                    testCounter++;
-                } else{
-                    testCounter--;
+                if(checkBtn.classList.contains('unmark')){ 
+                    counter++;
+                    this.completedTasks[0].completed = counter;
+                    localStorage.setItem('completedTasks', JSON.stringify(this.completedTasks));
+                } else if(checkBtn.classList.contains('mark')){
+                    counter--;
+                    this.completedTasks[0].completed = counter;
+                    localStorage.setItem('completedTasks', JSON.stringify(this.completedTasks));
                 }
             }
 
         })
 
+    }
+
+    setCompletedTasks = (counter = 0) => {
+        const data = localStorage.getItem('completedTasks');
+        const today = this.getToday();
+        const daysSinceLogin = this.daysElapsed(this.lastLogin, today); 
         if(!data || daysSinceLogin === 1) {
-            const newCompletedTask = new CompletedTask(today, testCounter);
+            const newCompletedTask = new CompletedTask(today, counter);
             this.completedTasks.unshift(newCompletedTask);
             localStorage.setItem('completedTasks', JSON.stringify(this.completedTasks));
-        } else {
+        } else if(daysSinceLogin > 1){
             this.completedTasks = JSON.parse(data);
-            if(daysSinceLogin === 0) {
-                this.completedTasks[0].completed = testCounter;
-            } else {
-                for(let i = daysSinceLogin; i > 0; i--) {
-                    let day = this.getToday(i);
-                    let listItem = new CompletedTask(day, []);
-                    this.completedTasks.unshift(listItem);
-                }
-                const newTask = new CompletedTask(today, testCounter);
-                this.completedTasks.unshift(newTask);
-                localStorage.setItem('completedTasks', this.completedTasks);
-
+            for(let i = daysSinceLogin; i > 0; i--) {
+                let day = this.getToday(i);
+                let listItem = new CompletedTask(day, counter);
+                this.completedTasks.unshift(listItem);
             }
+            localStorage.setItem('completedTasks', JSON.stringify(this.completedTasks));
+
+            
 
         }
 
