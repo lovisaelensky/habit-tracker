@@ -15,7 +15,7 @@
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 20vh 1fr 30vh;
     gap: 1rem;
-    background-color: lightgray;
+    background-image: url(images/kunj-parekh-3s3JPEXRzUg-unsplash.jpg);
 }
 
 header {
