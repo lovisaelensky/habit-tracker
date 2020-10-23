@@ -10,7 +10,6 @@ body {
 }
 
 ul {
-  display: flex;
   flex-direction: column;
 }
 
@@ -18,12 +17,21 @@ li {
   font-size: 1.5rem;
   flex: 1;
   background: white;
+  display: flex;
+}
+
+li p {
+  margin-right: 100px;
 }
 
 .tracker-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 100vw;
+  background-color: green;
+  font-family: 'Gill sans';
 }
 
 .tracker-list {
@@ -32,12 +40,15 @@ li {
   list-style: none;
   margin: 0.5rem;
   color: black;
-  font-size: 1.5rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  font-size: 0.5rem;
+  overflow: scroll;
+  max-height: 200px;
 }
 
 .color {
   color: orange;
+}
+
+span {
+  font-size: 20px;
 }
