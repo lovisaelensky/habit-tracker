@@ -222,11 +222,11 @@ class Calendar {
         const data = localStorage.getItem('completedTasks');
         const today = this.getToday();
         const daysSinceLogin = this.daysElapsed(this.lastLogin, today); 
-        if(!data || daysSinceLogin === 1) {
+        if(!data) {
             const newCompletedTask = new CompletedTask(today, counter);
             this.completedTasks.unshift(newCompletedTask);
             localStorage.setItem('completedTasks', JSON.stringify(this.completedTasks));
-        } else if(daysSinceLogin > 1){
+        } else if(daysSinceLogin >= 1){
             this.completedTasks = JSON.parse(data);
             for(let i = daysSinceLogin -1; i >= 0; i--) {
                 let day = this.getToday(-i);
@@ -241,15 +241,9 @@ class Calendar {
 
 
 
-class UserInfo {
-    constructor() {
-        let userId = localStorage.getItem('userId');
-    }
-}
-
 
 const calendar = new Calendar();
-const newList = new ListOfTasks();
+const newList = new ListOfTasks(); 
 
 
 
