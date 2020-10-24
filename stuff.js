@@ -243,7 +243,24 @@ class Calendar {
     }
 }
 
+class DataHandler {
+    static checkData () {
+        let userData = [];
+        let data = localStorage.getItem('userData');
+        if(data){
+            let checkTypeOfData = JSON.parse(data);
+            if(!Array.isArray(checkTypeOfData)) {
+                userData.push(checkTypeOfData);
+            } else {
+                userData = checkTypeOfData;
+            }
+            return userData;
+        } else{
+            return;
+        }
+    }
 
+}
 
 class UserData {
     userData;
@@ -253,14 +270,14 @@ class UserData {
     constructor(username, userpassword, index) {
         this.userName = username;
         this.index = index;
-        let data = localStorage.getItem('userData');
-        if(data){
-            this.userData = JSON.parse(data);
+        console.log(this.index);
+        this.userData = DataHandler.checkData();
+        if(this.userData && this.index > -1){
             const newList = new ListOfTasks(this.index);
             const calendar = new Calendar(this.index);   
         } else {
             this.userPassword = userpassword;
-            this.userData = {
+            const newUser = {
                 name: this.userName,
                 password: this.userPassword,
                 loggedIn: true,
@@ -268,6 +285,8 @@ class UserData {
                 lastLogin: '',
                 completedTasks: []
             };
+            this.userData.push(newUser);
+            this.index = this.userData.length -1;
             localStorage.setItem('userData', JSON.stringify(this.userData));
             const calendar = new Calendar(this.index); 
             const newList = new ListOfTasks(this.index); 
@@ -280,61 +299,69 @@ class UserData {
 
 class App {
     static init() {
-        let userData = [];
+        let userData = DataHandler.checkData();
         let index = 0;
-        let data = localStorage.getItem('userData');
-        if(data){
-            let checkTypeOfData = JSON.parse(data);
-            if(!Array.isArray(checkTypeOfData)) {
-                userData.push(checkTypeOfData);
-            } else {
-                userData = checkTypeOfData;
-            }
+        if(userData) {
             index = userData.findIndex((item) => {
                 return item.loggedIn === true;
             });
             if(index > -1) {
                 this.startApp(userData[index].name, userData[index].password, index);
             } 
-            
-            
-
-
-        } 
+        }
+        
         const startBtn = document.getElementById('start-btn');
         let userName = document.getElementById('user-name');
         let userPassword = document.getElementById('user-password');
+
         const logIn = (event) => {
             if(event.keyCode === 13 || event.currentTarget === startBtn) {
                 if(userName.value === '' || userPassword.value === ''){ return; }
-                if(data){
+                if(userData){
                     index = userData.findIndex((item) => {
                         return item.name === `${userName.value}`;
                     });
-                    if(userData[index].password === userPassword.value) {
-                        this.startApp(userName.value, userPassword.value, index); 
+                    if(index > -1) {
+                        if(userData[index].password === userPassword.value) {
+                            userData[index].loggedIn = true;
+                            localStorage.setItem('userData', JSON.stringify(userData));
+                            this.startApp(userName.value, userPassword.value, index); 
+                        } else {
+                            document.querySelector('.invalid-user').innerText = 'Wrong password or username.';
+                            userName.value = '';
+                            userPassword.value = '';
+                            return;
+                        }
                     } else {
-                        document.querySelector('.invalid-user').innerText = 'Wrong password or username.';
-                        userName.value = '';
-                        userPassword.value = '';
-                        return;
+                        console.log(index);
+                        this.startApp(userName.value, userPassword.value, index);
                     }
                 } else {
                     this.startApp(userName.value, userPassword.value);
                 }
             }
-            
         }
+
         startBtn.addEventListener('click', logIn);
         userPassword.addEventListener('keyup', logIn);
 
         const logOutBtn = document.getElementById('log-out');
+        logOutBtn.addEventListener('click', () => {
+            userData = DataHandler.checkData();
+            userData[index].loggedIn = false;
+            localStorage.setItem('userData', JSON.stringify(userData));
+            document.querySelector('.intro-page').classList.remove('hidden');
+            document.querySelector('.date').classList.add('hidden');
+            document.querySelector('.input-container').classList.add('hidden');
+            document.querySelector('.list').classList.add('hidden');
+            document.querySelector('footer').classList.add('hidden');
+        });
         
     }
 
     
     static startApp = (name, password, index = 0) => {
-        const newUser = new UserData(name, password, index = 0);
+        const newUser = new UserData(name, password, index);
         document.querySelector('.users-chores').textContent = `${name}'s chores:`;
         document.querySelector('.intro-page').classList.add('hidden');
         document.querySelector('.date').classList.remove('hidden');
@@ -342,8 +369,6 @@ class App {
         document.querySelector('.list').classList.remove('hidden');
         document.querySelector('footer').classList.remove('hidden');
     }
-
-
 }
 
 
