@@ -10,7 +10,7 @@ const userData = [
     },
     {
         name:'Maria',
-        loggedIn: false,
+        loggedIn: true,
         password: 'hej',
         taskList: [],
         lastLogin: '',
@@ -39,10 +39,28 @@ getIndexOf = (array) => {
     return index;
 } 
 
+let index = userData.findIndex((item) => {
+    return item.loggedIn === true;
+});
+
 let findIndex = userData.findIndex((item) => {
     return item.name === 'Lina';
 });
 
 
-let findingIndex = getIndexOf(userData);
-console.log(findIndex);
+
+console.log(index);
+
+if(userData.length > 1) {
+    index = userData.findIndex((item) => {
+        return item.loggedIn === true;
+    });
+    if(index > -1) {
+        this.startApp(userData[index].name, userData[index].password, index);
+    } 
+} else {
+    if(userData[0].loggedIn === true) {
+        console.log('got here');
+        this.startApp(userData.name, userData.password);
+    }
+}
