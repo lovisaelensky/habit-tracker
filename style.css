@@ -92,7 +92,8 @@ input {
 }
 
 .clean {
-    background-color: snow;
+    background-image: url("images/victor-garcia-0yL6nXhn0pI-unsplash.jpg");
+    background-size: cover;
 }
 
 #trash-can {

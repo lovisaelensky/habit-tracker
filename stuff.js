@@ -212,11 +212,11 @@ class Calendar {
         DOMlist.addEventListener('click', (event) => {
             if(event.target.nodeName === 'BUTTON'){
                 let checkBtn = event.target;
-                if(checkBtn.classList.contains('unmark')){ 
+                if(checkBtn.classList.contains('mark')){ 
                     currentCounter++;
                     this.userData[this.index].completedTasks[0].completed = currentCounter;
                     localStorage.setItem('userData', JSON.stringify(this.userData));
-                } else if(checkBtn.classList.contains('mark')){
+                } else if(checkBtn.classList.contains('unmark')){
                     currentCounter--;
                     this.userData[this.index].completedTasks[0].completed = currentCounter;
                     localStorage.setItem('userData', JSON.stringify(this.userData));
@@ -256,7 +256,7 @@ class DataHandler {
             }
             return userData;
         } else{
-            return;
+            return [];
         }
     }
 
@@ -270,9 +270,9 @@ class UserData {
     constructor(username, userpassword, index) {
         this.userName = username;
         this.index = index;
-        console.log(this.index);
         this.userData = DataHandler.checkData();
         if(this.userData && this.index > -1){
+            console.log('got here 2');
             const newList = new ListOfTasks(this.index);
             const calendar = new Calendar(this.index);   
         } else {
@@ -288,6 +288,7 @@ class UserData {
             this.userData.push(newUser);
             this.index = this.userData.length -1;
             localStorage.setItem('userData', JSON.stringify(this.userData));
+            console.log('got here 3');
             const calendar = new Calendar(this.index); 
             const newList = new ListOfTasks(this.index); 
 
@@ -325,6 +326,7 @@ class App {
                         if(userData[index].password === userPassword.value) {
                             userData[index].loggedIn = true;
                             localStorage.setItem('userData', JSON.stringify(userData));
+                            console.log('got here 1');
                             this.startApp(userName.value, userPassword.value, index); 
                         } else {
                             document.querySelector('.invalid-user').innerText = 'Wrong password or username.';
@@ -333,7 +335,6 @@ class App {
                             return;
                         }
                     } else {
-                        console.log(index);
                         this.startApp(userName.value, userPassword.value, index);
                     }
                 } else {
@@ -355,6 +356,7 @@ class App {
             document.querySelector('.input-container').classList.add('hidden');
             document.querySelector('.list').classList.add('hidden');
             document.querySelector('footer').classList.add('hidden');
+            location.reload();
         });
         
     }
