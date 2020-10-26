@@ -30,11 +30,21 @@ class ListOfTasks {
                 }
             }
         }
+        if(this.userData[this.index].lastLogin === '') {
+            this.userData[this.index].lastLogin = this.getToday();
+            localStorage.setItem('userData', JSON.stringify(this.userData));
+        }
+
+        this.showDate();
+        this.unCheck(this.userData[this.index].lastLogin);
+        this.setCompletedTasks();  
+        this.countChecks();  
         this.create();
         this.check();
         this.changeUI();
         this.deleteDragAndDrop();
         this.deleteBackspace();
+        this.logOut();
     }
 
     publish = (task, id, check) => {
@@ -137,41 +147,6 @@ class ListOfTasks {
     deleteSwipe = () => {
 
     }
-
-
-}
-
-class CompletedTask {
-    constructor(date, completed) {
-        this.date = date;
-        this.completed = completed;
-    }
-}
-
-class Calendar {
-    userData = [];
-    index;
-    constructor(index) {
-        this.index = index;
-        let data = localStorage.getItem('userData');
-        let checkTypeOfData = JSON.parse(data);
-        if(!Array.isArray(checkTypeOfData)) {
-            this.userData.push(checkTypeOfData);
-        } else {
-            this.userData = checkTypeOfData;
-        }
-        if(this.userData[this.index].lastLogin === '') {
-            this.userData[this.index].lastLogin = this.getToday();
-            localStorage.setItem('userData', JSON.stringify(this.userData));
-        }
-
-        this.showDate();
-        this.unCheck(this.userData[this.index].lastLogin);
-        this.setCompletedTasks();  
-        this.countChecks();  
-
-    }
-
     showDate = () => {
         let DOMdate = document.getElementById('today');
         DOMdate.textContent = this.getToday();
@@ -212,11 +187,11 @@ class Calendar {
         DOMlist.addEventListener('click', (event) => {
             if(event.target.nodeName === 'BUTTON'){
                 let checkBtn = event.target;
-                if(checkBtn.classList.contains('mark')){ 
+                if(checkBtn.classList.contains('unmark')){ 
                     currentCounter++;
                     this.userData[this.index].completedTasks[0].completed = currentCounter;
                     localStorage.setItem('userData', JSON.stringify(this.userData));
-                } else if(checkBtn.classList.contains('unmark')){
+                } else if(checkBtn.classList.contains('mark')){
                     currentCounter--;
                     this.userData[this.index].completedTasks[0].completed = currentCounter;
                     localStorage.setItem('userData', JSON.stringify(this.userData));
@@ -241,7 +216,31 @@ class Calendar {
             localStorage.setItem('userData', JSON.stringify(this.userData));
         }
     }
+
+    logOut = () => {
+        const logOutBtn = document.getElementById('log-out');
+        logOutBtn.addEventListener('click', () => {
+            this.userData[this.index].loggedIn = false;
+            localStorage.setItem('userData', JSON.stringify(this.userData));
+            document.querySelector('.intro-page').classList.remove('hidden');
+            document.querySelector('.date').classList.add('hidden');
+            document.querySelector('.input-container').classList.add('hidden');
+            document.querySelector('.list').classList.add('hidden');
+            document.querySelector('footer').classList.add('hidden');
+            location.reload();
+        });
+    }
+
 }
+
+class CompletedTask {
+    constructor(date, completed) {
+        this.date = date;
+        this.completed = completed;
+    }
+}
+
+
 
 class DataHandler {
     static checkData () {
@@ -259,7 +258,6 @@ class DataHandler {
             return [];
         }
     }
-
 }
 
 class UserData {
@@ -272,9 +270,7 @@ class UserData {
         this.index = index;
         this.userData = DataHandler.checkData();
         if(this.userData && this.index > -1){
-            console.log('got here 2');
             const newList = new ListOfTasks(this.index);
-            const calendar = new Calendar(this.index);   
         } else {
             this.userPassword = userpassword;
             const newUser = {
@@ -288,10 +284,7 @@ class UserData {
             this.userData.push(newUser);
             this.index = this.userData.length -1;
             localStorage.setItem('userData', JSON.stringify(this.userData));
-            console.log('got here 3');
-            const calendar = new Calendar(this.index); 
             const newList = new ListOfTasks(this.index); 
-
         }
 
     }
@@ -326,7 +319,6 @@ class App {
                         if(userData[index].password === userPassword.value) {
                             userData[index].loggedIn = true;
                             localStorage.setItem('userData', JSON.stringify(userData));
-                            console.log('got here 1');
                             this.startApp(userName.value, userPassword.value, index); 
                         } else {
                             document.querySelector('.invalid-user').innerText = 'Wrong password or username.';
@@ -345,19 +337,6 @@ class App {
 
         startBtn.addEventListener('click', logIn);
         userPassword.addEventListener('keyup', logIn);
-
-        const logOutBtn = document.getElementById('log-out');
-        logOutBtn.addEventListener('click', () => {
-            userData = DataHandler.checkData();
-            userData[index].loggedIn = false;
-            localStorage.setItem('userData', JSON.stringify(userData));
-            document.querySelector('.intro-page').classList.remove('hidden');
-            document.querySelector('.date').classList.add('hidden');
-            document.querySelector('.input-container').classList.add('hidden');
-            document.querySelector('.list').classList.add('hidden');
-            document.querySelector('footer').classList.add('hidden');
-            location.reload();
-        });
         
     }
 
@@ -374,4 +353,4 @@ class App {
 }
 
 
-App.init();
+App.init(); 
