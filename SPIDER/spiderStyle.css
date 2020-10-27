@@ -24,3 +24,8 @@
 .animate__slideInDown {
     --animate-delay: 0.9s;
 }
+
+.animate__slideOutUp {
+    --animate-delay: 0.9s;
+
+}
