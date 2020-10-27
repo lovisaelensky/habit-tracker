@@ -10,27 +10,38 @@ class CleaningItem {
 
 
 class ListOfTasks {
-    list;
     id = 0;
-    constructor() {
-        let data = localStorage.getItem('taskList');
-        if(data){
-            this.list = JSON.parse(data);
-            this.id = this.list.length;
-            for(const item of this.list) {
+    userData = [];
+    index;
+    calendar;
+    constructor(index) {
+        this.index = index;
+        this.userData = DataHandler.checkData();
+        if(this.userData[this.index].taskList.length > 0) {
+            this.id = this.userData[this.index].taskList.length;
+            for(const item of this.userData[this.index].taskList) {
                 if(item.active) {
-                    this.publish(item.task, item.id, item.check);
+                this.publish(item.task, item.id, item.check);
                 }
             }
-        } else {
-            this.list = [];
+        }
+        if(this.userData[this.index].lastLogin === '') {
+            this.userData[this.index].lastLogin = this.getToday();
+            localStorage.setItem('userData', JSON.stringify(this.userData));
         }
 
+
+        this.showDate();
+        this.unCheck(this.userData[this.index].lastLogin);
+        this.setCompletedTasks();  
+        this.countChecks();  
         this.create();
         this.check();
         this.changeUI();
         this.deleteDragAndDrop();
         this.deleteBackspace();
+        this.calendar = new Calendar(this.index);
+        this.logOut();
     }
 
     publish = (task, id, check) => {
@@ -51,9 +62,9 @@ class ListOfTasks {
             if(taskInput.value === ""){ return; }
             if(event.keyCode === 13 || event.currentTarget === addBtn) {
                 const newItem = new CleaningItem(taskInput.value, this.id);
-                this.list.push(newItem);
+                this.userData[this.index].taskList.push(newItem);
                 this.publish(newItem.task, newItem.id);
-                localStorage.setItem('taskList', JSON.stringify(this.list));
+                localStorage.setItem('userData', JSON.stringify(this.userData));
                 this.id++;
                 taskInput.value = "";
             }
@@ -70,9 +81,10 @@ class ListOfTasks {
                 let checkBtn = event.target;
                 checkBtn.classList.toggle('mark');
                 checkBtn.classList.toggle('unmark');
-                this.list[checkBtn.id].check = this.list[checkBtn.id].check ? false : true;
-                localStorage.setItem('taskList', JSON.stringify(this.list));
+                this.userData[this.index].taskList[checkBtn.id].check = this.userData[this.index].taskList[checkBtn.id].check ? false : true;
+                localStorage.setItem('userData', JSON.stringify(this.userData));
                 this.changeUI();
+                location.reload();
             }
 
         })
@@ -81,7 +93,7 @@ class ListOfTasks {
 
     changeUI = () => {
         let checkedTasks = 0;
-        for(const item of this.list) {
+        for(const item of this.userData[this.index].taskList) {
             if(item.check && item.active) {
                 checkedTasks++;
             }
@@ -110,8 +122,8 @@ class ListOfTasks {
             const itemId = event.dataTransfer.getData('text/plain');
             const DOMitem = document.getElementById(`${itemId}`);
             DOMlist.removeChild(DOMitem);
-            this.list[itemId.slice(3)].active = false; 
-            localStorage.setItem('taskList', JSON.stringify(this.list));
+            this.userData[this.index].taskList[itemId.slice(3)].active = false; 
+            localStorage.setItem('userData', JSON.stringify(this.userData));
             this.changeUI();
         });
 
@@ -123,60 +135,27 @@ class ListOfTasks {
             if(event.keyCode === 8) {
                 event.target.remove();
                 const itemId = event.target.id;
-                this.list[itemId.slice(3)].active = false;
-                localStorage.setItem('taskList', JSON.stringify(this.list));
+                this.userData[this.index].taskList[itemId.slice(3)].active = false;
+                localStorage.setItem('userData', JSON.stringify(this.userData));
                 this.changeUI();
             }
         })
     }
 
-    deleteSwipe = () => {
-
-    }
-
-
-}
-
-class CompletedTask {
-    constructor(date, completed) {
-        this.date = date;
-        this.completed = completed;
-    }
-}
-
-class Calendar {
-    lastLogin;
-    completedTasks = [];
-    constructor() {
-        let data = localStorage.getItem('lastLogin');
-        if(data){
-            this.lastLogin = JSON.parse(data);
-            this.unCheck(this.lastLogin);
-            localStorage.setItem('lastLogin', JSON.stringify(this.getToday()));
-        } else {
-            localStorage.setItem('lastLogin', JSON.stringify(this.getToday()));
-        }
-        
-        this.showDate();
-        this.setCompletedTasks();  
-        this.countChecks();
-    }
-
     showDate = () => {
         let DOMdate = document.getElementById('today');
         DOMdate.textContent = this.getToday();
+        DOMdate.classList.remove('hidden');
     }
 
     unCheck = (lastLogin) => {
         const today = this.getToday();
         const checkDay = this.daysElapsed(lastLogin, today);
         if(checkDay > 0) {
-            const data = localStorage.getItem('taskList');
-            const list = JSON.parse(data);
-            for(const item of list) {
+            for(const item of this.userData[this.index].taskList) {
                 item.check = false;
             }
-            localStorage.setItem('taskList', JSON.stringify(list));
+            localStorage.setItem('userData', JSON.stringify(this.userData));
         }
     }
 
@@ -198,53 +177,209 @@ class Calendar {
 
 
     countChecks = () => {
-        const data = localStorage.getItem('completedTasks');
-        this.completedTasks = JSON.parse(data);
-        let currentCounter = this.completedTasks[0].completed;
+        let currentCounter = this.userData[this.index].completedTasks[0].completed;
         const DOMlist = document.querySelector('ul');
         DOMlist.addEventListener('click', (event) => {
             if(event.target.nodeName === 'BUTTON'){
                 let checkBtn = event.target;
                 if(checkBtn.classList.contains('unmark')){ 
                     currentCounter++;
-                    this.completedTasks[0].completed = currentCounter;
-                    localStorage.setItem('completedTasks', JSON.stringify(this.completedTasks));
+                    this.userData[this.index].completedTasks[0].completed = currentCounter;
+                    localStorage.setItem('userData', JSON.stringify(this.userData));
                 } else if(checkBtn.classList.contains('mark')){
                     currentCounter--;
-                    this.completedTasks[0].completed = currentCounter;
-                    localStorage.setItem('completedTasks', JSON.stringify(this.completedTasks));
+                    this.userData[this.index].completedTasks[0].completed = currentCounter;
+                    localStorage.setItem('userData', JSON.stringify(this.userData));
                 }
             }
         })
     }
 
     setCompletedTasks = (counter = 0) => {
-        const data = localStorage.getItem('completedTasks');
         const today = this.getToday();
-        const daysSinceLogin = this.daysElapsed(this.lastLogin, today); 
-        if(!data) {
+        const daysSinceLogin = this.daysElapsed(this.userData[this.index].lastLogin, today); 
+        if(this.userData[this.index].completedTasks.length === 0) {
             const newCompletedTask = new CompletedTask(today, counter);
-            this.completedTasks.unshift(newCompletedTask);
-            localStorage.setItem('completedTasks', JSON.stringify(this.completedTasks));
+            this.userData[this.index].completedTasks.unshift(newCompletedTask);
+            localStorage.setItem('userData', JSON.stringify(this.userData));
         } else if(daysSinceLogin >= 1){
-            this.completedTasks = JSON.parse(data);
             for(let i = daysSinceLogin -1; i >= 0; i--) {
                 let day = this.getToday(-i);
                 let listItem = new CompletedTask(day, counter);
-                this.completedTasks.unshift(listItem);
+                this.userData[this.index].completedTasks.unshift(listItem);
             }
-            localStorage.setItem('completedTasks', JSON.stringify(this.completedTasks));
+            this.userData[this.index].lastLogin = this.getToday();
+            localStorage.setItem('userData', JSON.stringify(this.userData));
         }
+    }
+
+    logOut = () => {
+        const logOutBtn = document.getElementById('log-out');
+        logOutBtn.addEventListener('click', () => {
+            this.userData[this.index].loggedIn = false;
+            localStorage.setItem('userData', JSON.stringify(this.userData));
+            document.querySelector('.intro-page').classList.remove('hidden');
+            document.querySelector('.date').classList.add('hidden');
+            document.querySelector('.input-container').classList.add('hidden');
+            document.querySelector('.list').classList.add('hidden');
+            document.querySelector('footer').classList.add('hidden');
+            document.querySelector('.tracker-container').classList.add('hidden');
+            location.reload();
+        });
+    }
+
+}
+
+class CompletedTask {
+    constructor(date, completed) {
+        this.date = date;
+        this.completed = completed;
     }
 }
 
 
 
+class DataHandler {
+    static checkData () {
+        let userData = [];
+        let data = localStorage.getItem('userData');
+        if(data){
+            userData = JSON.parse(data);
+            return userData;
+        } else {
+            return [];
+        }
+    }
+}
+
+class UserData {
+    userData;
+    userName;
+    userPassword;
+    index;
+    constructor(username, userpassword, index) {
+        this.userName = username;
+        this.index = index;
+        this.userData = DataHandler.checkData();
+        if(this.userData && this.index > -1){
+            const newList = new ListOfTasks(this.index);
+        } else {
+            this.userPassword = userpassword;
+            const newUser = {
+                name: this.userName,
+                password: this.userPassword,
+                loggedIn: true,
+                taskList: [],
+                lastLogin: '',
+                completedTasks: []
+            };
+            this.userData.push(newUser);
+            this.index = this.userData.length -1;
+            localStorage.setItem('userData', JSON.stringify(this.userData));
+            const newList = new ListOfTasks(this.index); 
+        }
+
+    }
+}
 
 
-const calendar = new Calendar();
-const newList = new ListOfTasks(); 
+class Calendar {
+    index;
+    userData;
+    constructor(index) {
+        this.index = index;
+        this.userData = DataHandler.checkData();
+
+        for (const item of this.userData[this.index].completedTasks) {
+            this.addTracking(item);
+        }
+    }
 
 
 
-     
+    addTracking(item) {
+        const newLi = document.createElement('li');
+        const ul = document.querySelector('.tracker-list');
+        ul.appendChild(newLi);
+      
+        const newP = document.createElement('p');
+        newP.innerText = item.date;
+        newLi.appendChild(newP);
+      
+        for (let i = 0; i < item.completed; i++) {
+          const newSpan = document.createElement('span');
+          newSpan.innerHTML = '&#9673';
+          newSpan.classList.add('color');
+          newLi.appendChild(newSpan);
+        }
+    }
+    
+
+} 
+
+class App {
+    static init() {
+        let userData = DataHandler.checkData();
+        let index = 0;
+        if(userData) {
+            index = userData.findIndex((item) => {
+                return item.loggedIn === true;
+            });
+            if(index > -1) {
+                this.startApp(userData[index].name, userData[index].password, index);
+            } 
+        }
+        
+        const startBtn = document.getElementById('start-btn');
+
+        let inputPassword = document.getElementById('user-password');
+
+        const logIn = (event) => {
+            let userName = document.getElementById('user-name').value.trim();
+            let password = inputPassword.value.trim();
+            if(event.keyCode === 13 || event.currentTarget === startBtn) {
+                if(userName === '' || password === ''){ return; }
+                if(userData){
+                    index = userData.findIndex((item) => {
+                        return item.name === `${userName}`;
+                    });
+                    if(index > -1) {
+                        if(userData[index].password === password) {
+                            userData[index].loggedIn = true;
+                            localStorage.setItem('userData', JSON.stringify(userData));
+                            this.startApp(userName, password, index); 
+                        } else {
+                            document.querySelector('.invalid-user').innerText = 'Wrong password or username.';
+                            userName = '';
+                            password = '';
+                            return;
+                        }
+                    } else {
+                        this.startApp(userName, password, index);
+                    }
+                } else {
+                    this.startApp(userName, password);
+                }
+            }
+        }
+
+        startBtn.addEventListener('click', logIn);
+        inputPassword.addEventListener('keyup', logIn);
+        
+    }
+
+    
+    static startApp = (name, password, index = 0) => {
+        const newUser = new UserData(name, password, index);
+        document.querySelector('.users-chores').textContent = `${name}'s chores:`;
+        document.querySelector('.intro-page').classList.add('hidden');
+        document.querySelector('.date').classList.remove('hidden');
+        document.querySelector('.input-container').classList.remove('hidden');
+        document.querySelector('.list').classList.remove('hidden');
+        document.querySelector('footer').classList.remove('hidden');
+        document.querySelector('.tracker-container').classList.remove('hidden');
+    }
+}
+
+
+App.init(); 
