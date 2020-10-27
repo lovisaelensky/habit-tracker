@@ -135,13 +135,37 @@ input {
 
 
 
+.spideweb {
+    position: relative;
 
+}
+.spiderweb img {
+    width: 30vw;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+
+.spider {
+    visibility: hidden;
+}
+
+
+
+.animate__slideInDown {
+    --animate-delay: 0.9s;
+}
+
+.animate__slideOutUp {
+    --animate-delay: 0.9s;
+
+}
 
 @media screen and (max-width: 479px) {
     /* start of phone styles */
     main {
         max-width: 479px;
-        background-color: pink;
+
     }
     h1, h2 {
         text-align: center;

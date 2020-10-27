@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clean up!</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="spiderStyle.css">
     <script src="app.js" defer></script>
+    <script src="animations.js" defer></script>
 </head>
 
 <body>
@@ -28,6 +30,7 @@
                 <button class="login" id="start-btn">Get clean!</button>
                 <p class="invalid-user"></p>
             </div>
+            
 
             <div class="input-container hidden">
                 <h3 class="users-chores"></h3>
@@ -44,6 +47,10 @@
 
 
         </main>
+        <div class="spiderweb">
+            <img src="images/spiderweb2.png">
+            <img class="spider" src="images/spider-string.png">
+        </div>
         <div class="tracker-container hidden">
             <h3>Keep track of your streak!</h3>
             <ul class="tracker-list">
@@ -51,7 +58,6 @@
         </div>
 
         <footer class="hidden">
-            <button id="show-calendar-btn">How clean have you been?</button>
             <button id="log-out">Log out</button>
         </footer>
 

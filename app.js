@@ -100,6 +100,7 @@ class ListOfTasks {
         }
         if(checkedTasks > 2) {
             document.getElementById('wrapper').classList.add('clean');
+            document.querySelector('.spiderweb').classList.add('hidden');
         } else {
             document.getElementById('wrapper').classList.remove('clean');
         }
