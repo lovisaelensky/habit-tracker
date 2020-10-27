@@ -1,0 +1,26 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.spideweb {
+    position: relative;
+
+}
+.spiderweb img {
+    width: 30vw;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+
+.spider {
+    visibility: hidden;
+}
+
+
+
+.animate__slideInDown {
+    --animate-delay: 0.9s;
+}
