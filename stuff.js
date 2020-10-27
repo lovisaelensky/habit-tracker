@@ -13,15 +13,10 @@ class ListOfTasks {
     id = 0;
     userData = [];
     index;
+    calendar;
     constructor(index) {
         this.index = index;
-        let data = localStorage.getItem('userData');
-        let checkTypeOfData = JSON.parse(data);
-        if(!Array.isArray(checkTypeOfData)) {
-            this.userData.push(checkTypeOfData);
-        } else {
-            this.userData = checkTypeOfData;
-        }
+        this.userData = DataHandler.checkData();
         if(this.userData[this.index].taskList.length > 0) {
             this.id = this.userData[this.index].taskList.length;
             for(const item of this.userData[this.index].taskList) {
@@ -35,6 +30,7 @@ class ListOfTasks {
             localStorage.setItem('userData', JSON.stringify(this.userData));
         }
 
+
         this.showDate();
         this.unCheck(this.userData[this.index].lastLogin);
         this.setCompletedTasks();  
@@ -44,6 +40,7 @@ class ListOfTasks {
         this.changeUI();
         this.deleteDragAndDrop();
         this.deleteBackspace();
+        this.calendar = new Calendar(this.index);
         this.logOut();
     }
 
@@ -87,6 +84,7 @@ class ListOfTasks {
                 this.userData[this.index].taskList[checkBtn.id].check = this.userData[this.index].taskList[checkBtn.id].check ? false : true;
                 localStorage.setItem('userData', JSON.stringify(this.userData));
                 this.changeUI();
+                location.reload();
             }
 
         })
@@ -225,6 +223,7 @@ class ListOfTasks {
             document.querySelector('.input-container').classList.add('hidden');
             document.querySelector('.list').classList.add('hidden');
             document.querySelector('footer').classList.add('hidden');
+            document.querySelector('.tracker-container').classList.add('hidden');
             location.reload();
         });
     }
@@ -245,15 +244,9 @@ class DataHandler {
         let userData = [];
         let data = localStorage.getItem('userData');
         if(data){
-            let checkTypeOfData = JSON.parse(data);
-            if(!Array.isArray(checkTypeOfData)) {
-                console.log('got here');
-                userData.push(checkTypeOfData);
-            } else {
-                userData = checkTypeOfData;
-            }
+            userData = JSON.parse(data);
             return userData;
-        } else{
+        } else {
             return [];
         }
     }
@@ -289,6 +282,40 @@ class UserData {
     }
 }
 
+
+class Calendar {
+    index;
+    userData;
+    constructor(index) {
+        this.index = index;
+        this.userData = DataHandler.checkData();
+
+        for (const item of this.userData[this.index].completedTasks) {
+            this.addTracking(item);
+        }
+    }
+
+
+
+    addTracking(item) {
+        const newLi = document.createElement('li');
+        const ul = document.querySelector('.tracker-list');
+        ul.appendChild(newLi);
+      
+        const newP = document.createElement('p');
+        newP.innerText = item.date;
+        newLi.appendChild(newP);
+      
+        for (let i = 0; i < item.completed; i++) {
+          const newSpan = document.createElement('span');
+          newSpan.innerHTML = '&#9673';
+          newSpan.classList.add('color');
+          newLi.appendChild(newSpan);
+        }
+    }
+    
+
+} 
 
 class App {
     static init() {
@@ -350,6 +377,7 @@ class App {
         document.querySelector('.input-container').classList.remove('hidden');
         document.querySelector('.list').classList.remove('hidden');
         document.querySelector('footer').classList.remove('hidden');
+        document.querySelector('.tracker-container').classList.remove('hidden');
     }
 }
 
