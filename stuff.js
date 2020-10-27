@@ -144,9 +144,6 @@ class ListOfTasks {
         })
     }
 
-    deleteSwipe = () => {
-
-    }
     showDate = () => {
         let DOMdate = document.getElementById('today');
         DOMdate.textContent = this.getToday();
@@ -213,6 +210,7 @@ class ListOfTasks {
                 let listItem = new CompletedTask(day, counter);
                 this.userData[this.index].completedTasks.unshift(listItem);
             }
+            this.userData[this.index].lastLogin = this.getToday();
             localStorage.setItem('userData', JSON.stringify(this.userData));
         }
     }
@@ -249,6 +247,7 @@ class DataHandler {
         if(data){
             let checkTypeOfData = JSON.parse(data);
             if(!Array.isArray(checkTypeOfData)) {
+                console.log('got here');
                 userData.push(checkTypeOfData);
             } else {
                 userData = checkTypeOfData;
@@ -305,38 +304,40 @@ class App {
         }
         
         const startBtn = document.getElementById('start-btn');
-        let userName = document.getElementById('user-name');
-        let userPassword = document.getElementById('user-password');
+
+        let inputPassword = document.getElementById('user-password');
 
         const logIn = (event) => {
+            let userName = document.getElementById('user-name').value.trim();
+            let password = inputPassword.value.trim();
             if(event.keyCode === 13 || event.currentTarget === startBtn) {
-                if(userName.value === '' || userPassword.value === ''){ return; }
+                if(userName === '' || password === ''){ return; }
                 if(userData){
                     index = userData.findIndex((item) => {
-                        return item.name === `${userName.value}`;
+                        return item.name === `${userName}`;
                     });
                     if(index > -1) {
-                        if(userData[index].password === userPassword.value) {
+                        if(userData[index].password === password) {
                             userData[index].loggedIn = true;
                             localStorage.setItem('userData', JSON.stringify(userData));
-                            this.startApp(userName.value, userPassword.value, index); 
+                            this.startApp(userName, password, index); 
                         } else {
                             document.querySelector('.invalid-user').innerText = 'Wrong password or username.';
-                            userName.value = '';
-                            userPassword.value = '';
+                            userName = '';
+                            password = '';
                             return;
                         }
                     } else {
-                        this.startApp(userName.value, userPassword.value, index);
+                        this.startApp(userName, password, index);
                     }
                 } else {
-                    this.startApp(userName.value, userPassword.value);
+                    this.startApp(userName, password);
                 }
             }
         }
 
         startBtn.addEventListener('click', logIn);
-        userPassword.addEventListener('keyup', logIn);
+        inputPassword.addEventListener('keyup', logIn);
         
     }
 
