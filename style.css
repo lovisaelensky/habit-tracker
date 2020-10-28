@@ -5,6 +5,7 @@
     text-decoration: none;
     font-family: brandon-grotesque,sans-serif;
     font-style: normal;
+    border-style: none;
 
 }
 
@@ -34,7 +35,6 @@ header {
 
 main {
     grid-column-start: 1;
-
     grid-row-start: 2;
     margin-left: 5rem;
 }
@@ -52,18 +52,29 @@ li {
     display: flex; 
     list-style-type: none;
     margin: 1rem 0 0 0;
-    border: 1px solid;
+    /* border: 1px solid; */
     padding: 0.5rem;
+    border-radius: 15px;
     background-color: snow;
     z-index: 5;
+    align-items: center;
 }
 
 p {
-    margin: 0.5rem 0 1rem 0.5rem;
+    margin: 0.5rem;
+}
+
+.intro-page {
+  background: rgba(255,255,255, 0.7);
+  border-radius: 15px;
+  padding: 5px;
+}
+
+.login {
+    background-color: white;
 }
 
 .tracker-container {
-
     grid-column-start: 3;
     grid-row-start: 2;
 /*     display: flex; */
@@ -102,13 +113,25 @@ button {
     margin: 0.5rem 0 0.5rem 0;
     padding: 0.5rem;
     z-index: 10;
+    border-radius: 10px;
 }
 
+.check-btn {
+  width: 30px;
+  height: 29px;
+  border: 2px solid black;
+}
 input {
     padding: 0.5rem;
+    border-radius: 15px;
     z-index: 10;
 }
 
+.title {
+  background: rgba(255,255,255, 0.7);
+  border-radius: 15px;
+  padding: 5px;
+}
 
 .mark {
     background-color:black;
