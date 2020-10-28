@@ -101,8 +101,12 @@ class ListOfTasks {
         if(checkedTasks > 2) {
             document.getElementById('wrapper').classList.add('clean');
             document.querySelector('.spiderweb').classList.add('hidden');
+            document.querySelector('.cockroach-container').classList.add('hidden');
+            document.querySelector('section').classList.remove('hidden');
         } else {
             document.getElementById('wrapper').classList.remove('clean');
+            document.querySelector('.cockroach-container').classList.remove('hidden');
+            document.querySelector('section').classList.add('hidden');
         }
     }
 

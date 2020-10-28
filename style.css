@@ -3,7 +3,8 @@
     margin: 0;
     padding: 0;
     text-decoration: none;
-    font-family: Helvetica, sans-serif;
+    font-family: brandon-grotesque,sans-serif;
+    font-style: normal;
 
 }
 
@@ -13,7 +14,7 @@
 
 body {
     display: grid;
-    background-image: url("images/kunj-parekh-3s3JPEXRzUg-unsplash.jpg");
+    background-image: url("images/desktop-dirty.jpeg");
     background-size: cover;
 }
 
@@ -47,19 +48,14 @@ footer {
 }
 
 
-
-
-li button {
-    cursor: url(images/duster.png), auto;
-}
-
 li {
     display: flex; 
     list-style-type: none;
     margin: 1rem 0 0 0;
     border: 1px solid;
     padding: 0.5rem;
-    backdrop-filter: brightness(170%);
+    background-color: snow;
+    z-index: 5;
 }
 
 p {
@@ -99,15 +95,18 @@ p {
 h1 {
     margin: 1rem 0 1rem 0;
     font-size: 4rem;
+    font-weight: 700;
 }
 
 button {
     margin: 0.5rem 0 0.5rem 0;
     padding: 0.5rem;
+    z-index: 10;
 }
 
 input {
     padding: 0.5rem;
+    z-index: 10;
 }
 
 
@@ -124,13 +123,14 @@ input {
 }
 
 .clean {
-    background-image: url("images/victor-garcia-0yL6nXhn0pI-unsplash.jpg");
+    background-image: url("images/desktop-clean.jpeg");
     background-size: cover;
 }
 
 #trash-can {
     width: 3rem;
     margin: 1rem 0 0 0;
+    z-index: 10;
 }
 
 
@@ -160,6 +160,61 @@ input {
     --animate-delay: 0.9s;
 
 }
+
+.cockroach-container {
+    position: absolute;
+    /* width: 100%; */
+    left: 20%;
+    bottom: -10%;
+    animation: move 7s infinite linear;
+  }
+  .cockroach-container:hover {
+    animation-play-state: paused;
+  }
+  #cockroach {
+    position: relative;
+    width: 80px;
+    animation: rotation 0.7s infinite linear;
+  }
+  #cockroach:hover {
+    animation-play-state: paused;
+  }
+  
+  @keyframes rotation {
+    0% {
+      transform: rotate(-49deg);
+    }
+    15% {
+      transform: rotate(-35deg);
+    }
+    30% {
+      transform: rotate(-52deg);
+    }
+    45% {
+      transform: rotate(-32deg);
+    }
+    60% {
+      transform: rotate(-47deg);
+    }
+    75% {
+      transform: rotate(-35deg);
+    }
+    100% {
+      transform: rotate(-52deg);
+    }
+  }
+  
+  @keyframes move {
+    0% {
+      transform: translate(0px);
+    }
+    70% {
+      transform: translate(0px);
+    }
+    100% {
+      transform: translate(-400px, -500px);
+    }
+  }
 
 @media screen and (max-width: 479px) {
     /* start of phone styles */
