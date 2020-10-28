@@ -374,7 +374,7 @@ class App {
     }
 
     
-    static startApp = (name, password, index = 0) => {
+    static startApp(name, password, index = 0) {
         const newUser = new UserData(name, password, index);
         document.querySelector('.users-chores').textContent = `${name}'s chores:`;
         document.querySelector('.intro-page').classList.add('hidden');
