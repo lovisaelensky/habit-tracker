@@ -3,11 +3,19 @@
     margin: 0;
     padding: 0;
     text-decoration: none;
-    font-family: Helvetica, sans-serif;
+    font-family: brandon-grotesque,sans-serif;
+    font-style: normal;
+
 }
 
 :root {
     --bgcolour: grey;
+}
+
+body {
+    display: grid;
+    background-image: url("images/desktop-dirty.jpeg");
+    background-size: cover;
 }
 
 .grid-container {
@@ -15,60 +23,95 @@
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 20vh 1fr 30vh;
     gap: 1rem;
-    background-color: lightgray;
+
 }
 
 header {
-    grid-column-start: 2;
+    grid-column-start: 1;
     grid-row-start: 1;
+    margin-left: 5rem;
 }
-
 
 main {
-   grid-column-start: 2;
-   grid-row-start: 2;
+    grid-column-start: 1;
+
+    grid-row-start: 2;
+    margin-left: 5rem;
 }
+
 
 footer {
-    grid-column-start: 2;
+    grid-column-start: 1;
     grid-column-end: 3;
     grid-row-start: 3;
+    margin-left: 5rem;
 }
 
-li button {
-    cursor: url(images/duster.png), auto;
-}
 
 li {
-    display: flex;
+    display: flex; 
     list-style-type: none;
     margin: 1rem 0 0 0;
     border: 1px solid;
     padding: 0.5rem;
-    cursor: url(images/duster.png), auto;
+    background-color: snow;
+    z-index: 5;
 }
 
 p {
     margin: 0.5rem 0 1rem 0.5rem;
 }
 
+.tracker-container {
+
+    grid-column-start: 3;
+    grid-row-start: 2;
+/*     display: flex; */
+/*     flex-direction: column;
+    justify-content: center;
+    align-items: center; */
+    width: 20vw;
+  }
+  
+  .tracker-list {
+    /* min-width: 30%;*/
+/*     min-width: 50vw; */
+    list-style: none;
+    color: black;
+    font-size: 1rem;
+    overflow: scroll;
+    max-height: 200px;
+  }
+  
+  .color {
+    color: black;
+  }
+  
+  span {
+    font-size: 20px;
+  }
+  
+
 h1 {
     margin: 1rem 0 1rem 0;
     font-size: 4rem;
+    font-weight: 700;
 }
 
 button {
     margin: 0.5rem 0 0.5rem 0;
     padding: 0.5rem;
+    z-index: 10;
 }
 
 input {
     padding: 0.5rem;
+    z-index: 10;
 }
 
 
 .mark {
-    background-color:pink;
+    background-color:black;
 }
 
 .unmark {
@@ -80,27 +123,104 @@ input {
 }
 
 .clean {
-    background-color: snow;
+    background-image: url("images/desktop-clean.jpeg");
+    background-size: cover;
 }
 
 #trash-can {
     width: 3rem;
     margin: 1rem 0 0 0;
-}
-
-#show-calendar-btn {
-    display: grid;
-    margin: 4rem 0 0 4rem;
-
+    z-index: 10;
 }
 
 
+
+.spideweb {
+    position: relative;
+
+}
+.spiderweb img {
+    width: 30vw;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+
+.spider {
+    visibility: hidden;
+}
+
+
+
+.animate__slideInDown {
+    --animate-delay: 0.9s;
+}
+
+.animate__slideOutUp {
+    --animate-delay: 0.9s;
+
+}
+
+.cockroach-container {
+    position: absolute;
+    /* width: 100%; */
+    left: 20%;
+    bottom: -10%;
+    animation: move 7s infinite linear;
+  }
+  .cockroach-container:hover {
+    animation-play-state: paused;
+  }
+  #cockroach {
+    position: relative;
+    width: 80px;
+    animation: rotation 0.7s infinite linear;
+  }
+  #cockroach:hover {
+    animation-play-state: paused;
+  }
+  
+  @keyframes rotation {
+    0% {
+      transform: rotate(-49deg);
+    }
+    15% {
+      transform: rotate(-35deg);
+    }
+    30% {
+      transform: rotate(-52deg);
+    }
+    45% {
+      transform: rotate(-32deg);
+    }
+    60% {
+      transform: rotate(-47deg);
+    }
+    75% {
+      transform: rotate(-35deg);
+    }
+    100% {
+      transform: rotate(-52deg);
+    }
+  }
+  
+  @keyframes move {
+    0% {
+      transform: translate(0px);
+    }
+    70% {
+      transform: translate(0px);
+    }
+    100% {
+      transform: translate(-400px, -500px);
+    }
+  }
 
 @media screen and (max-width: 479px) {
     /* start of phone styles */
     main {
         max-width: 479px;
-        background-color: pink;
+
     }
     h1, h2 {
         text-align: center;

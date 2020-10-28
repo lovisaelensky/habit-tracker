@@ -6,37 +6,127 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clean up!</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="https://use.typekit.net/rwb2geu.css">
+    <link rel="stylesheet" href="sparkle.css">
     <script src="app.js" defer></script>
+    <script src="animations.js" defer></script>
 </head>
 
 <body>
     <div class="grid-container" id="wrapper">
         <header>
             <h1 class="title">Clean up!</h1>
-            <h2 class="date" id="today">Datumet</h2>
+            <h2 class="date hidden" id="today">Datumet</h2>
+
         </header>
         <main>
-            <p class="hidden">En text om sajten och hur den fungerar.</p>
+            <div class="intro-page">
+                <p class="intro-text">Ready to clean up this mess? <br>
+                    <strong>Clean up!</strong> is a tool that helps you get a cleaner home, office, garage... life. 
+                    Type in what chores that need to be done, and track your progress
+                    by checking the boxes. If you do at least three task per day
+                    the website will also sparkle! <br> <br>
+                    Log in or create a new account:</p>
+                <input class="login" type="text" id="user-name" placeholder="Username">
+                <input class="login" type="text" id="user-password" placeholder="Password">
+                <button class="login" id="start-btn">Get clean!</button>
+                <p class="invalid-user"></p>
+            </div>
             
-            <div class="input-container">
-                <input type="text" id="input" placeholder="add cleaning task">
+
+            <div class="input-container hidden">
+                <h3 class="users-chores"></h3>
+                <input type="text" id="input" placeholder="Add cleaning task">
                 <button id="add-btn">+</button>
             </div>
+            <div class="list hidden">
+                <ul id="tasks"> 
+                </ul>
+                <img id="trash-can" src="images/iconmonstr-trash-can-1-240.png" alt="trash can">
 
-            <ul id="tasks"> 
-            </ul>
+            </div>
+
+
 
         </main>
+        <div class="tracker-container hidden">
+            <h3>Keep track of your streak!</h3>
+            <ul class="tracker-list">
+            </ul>
+        </div>
+        <div class="spiderweb">
+            <img src="images/spiderweb2.png">
+            <img class="spider" src="images/spider-string.png">
+        </div>
+        <div class="cockroach-container">
+            <img src="images/kack.png" id="cockroach" alt="">
+          </div>
 
-        <footer>
-            <!-- <button id="trash-btn">Trash</button> -->
-            <!-- <button id="calender-btn">Monthly overview</button> -->
-            <img id="trash-can" src="images/iconmonstr-trash-can-1-240.png" alt="trash can">
-            <button class="hidden" id="start-btn">Get clean!</button>
-            <button id="show-calendar-btn">How clean have you been?</button>
+        <footer class="hidden">
+            <button id="log-out">Log out</button>
         </footer>
 
     </div>
+
+    <section class="hidden">
+        <div class="bgPulse">
+    
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            
+    
+        </div>
+    </section>
 
 </body>
 
