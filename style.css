@@ -81,17 +81,18 @@ p {
 /*     flex-direction: column;
     justify-content: center;
     align-items: center; */
+    overflow: scroll;
     width: 20vw;
   }
   
   .tracker-list {
-    /* min-width: 30%;*/
-/*     min-width: 50vw; */
+/*     min-width: 30%;
+   min-width: 50vw;  */
     list-style: none;
     color: black;
     font-size: 1rem;
     overflow: scroll;
-    max-height: 200px;
+    max-height: 30vh;
   }
   
   .color {
