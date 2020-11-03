@@ -22,14 +22,6 @@ function exitSpider () {
    // console.log("U going?")
 } 
 
-/* 
-function moveCockroach () {
-    cockRoach.classList.remove('hidden');
-}
 
-function hideCockroach () {
-    cockRoach.classList.add('hidden');
-}
-setInterval(moveCockroach, 5000); */
 
 
